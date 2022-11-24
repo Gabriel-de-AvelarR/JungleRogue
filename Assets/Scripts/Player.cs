@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public float wallJump;
     public float maxHealth;
     public float Health;
+    public float molaForce;
     int nextLevel = 1;
     bool hasKey;
 
@@ -92,7 +93,6 @@ public class Player : MonoBehaviour
         if(!CombatController.isBlock){
             
             Health -= attackDamage;
-            Debug.Log(Health);
 
             CombatController.pushBack(transform.position, positionEnemy, rig);
             UI.reduceHearts(Health, maxHealth);
@@ -111,6 +111,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Afasta(bool direita){
+        //if se (direita=true) o hit veio da esquerda entao afasta pra direita
+        //else caso contrario
+        //a ideia é chamar essa funcao la no enemy quando colide com player
+    }
 
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8){
@@ -133,11 +138,14 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Chest" && hasKey){
             //get item
         }
-
+        if(collision.gameObject.tag == "mola"){
+            isJumping = false;
+            JumpForce = JumpForce * molaForce;
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision){
-        if(collision.gameObject.layer == 8){
+        if((collision.gameObject.layer == 8) && (collision.gameObject.tag == "mola")){
             isJumping = true;
         }
 
@@ -145,6 +153,9 @@ public class Player : MonoBehaviour
             wallSliding = false;
         }
 
+        if(collision.gameObject.tag == "mola"){
+            JumpForce = JumpForce / molaForce;
+        }
     }
     
 }

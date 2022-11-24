@@ -9,6 +9,7 @@ TagManager:
   - Gate
   - CheckPoint
   - Chest
+  - mola
   layers:
   - Default
   - TransparentFX
