@@ -29,12 +29,12 @@ public class Boss : MonoBehaviour
     }
     public int intTeste;
     public void Move(){
-        timeLevel = timeLevel + Time.deltaTime;
+        /*timeLevel = timeLevel + Time.deltaTime;
         Debug.Log(timeLevel);
         while(timeLevel < 5){
             //Vector3 movement = new Vector3(-contador, 0f, 0f);
             //transform.position += movement * Time.deltaTime *speed;
-        }
+        }*/
     }
     public void Follow(){
      float dist = Vector3.Distance(target.position, transform.position);
