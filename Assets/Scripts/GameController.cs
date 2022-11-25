@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
-    public int totalScore;
+    public int totalScore = 0;
     public Text scoreText;
     public static GameController instance;
     

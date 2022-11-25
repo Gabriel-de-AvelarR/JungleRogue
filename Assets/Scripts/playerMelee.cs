@@ -74,13 +74,10 @@ public class playerMelee : MonoBehaviour
 
     public void Block(){
         isBlock = true;
-        //animationPlayer.SetBool("isBlocking", false);
     }
 
     public void Ultimate(){ 
-        //animationPlayer.SetBool("isUlting", true);
         isUlt = true;
-        //animationPlayer.SetBool("isUlting", false);
 
     }
 

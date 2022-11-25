@@ -10,4 +10,8 @@ public class Touch_gameOver : MonoBehaviour
     public void reiniciaClick(){
         SceneManager.LoadScene("Level1");
     }
+
+    public void fechaAplicação(){
+        SceneManager.LoadScene("Menu");
+    }
 }

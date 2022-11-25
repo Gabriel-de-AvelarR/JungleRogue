@@ -16,10 +16,12 @@ public class Player : MonoBehaviour
     public float maxHealth;
     public float Health;
     public float molaForce;
-    int nextLevel = 1;
+
+    bool isOnGate = false;
+    int nextLevel = 0;
     bool hasKey;
 
-    public string[] sceneNameList;
+    string[] sceneNameList = new string[] {"Level1", "Level2", "Level3"};
     
     public UIManager UI;
 
@@ -34,10 +36,6 @@ public class Player : MonoBehaviour
     {
         maxHealth = Health;
         rig = GetComponent<Rigidbody2D>();
-        sceneNameList[0] = "Level1";
-        sceneNameList[1] = "Level2";
-        sceneNameList[2] = "Level3";
-        sceneNameList[3] = "Level4";
 
     }
 
@@ -52,6 +50,10 @@ public class Player : MonoBehaviour
         ActivateKick(CombatController.isKick);
         ActivateBlock(CombatController.isBlock);
         ActivateUlt(CombatController.isUlt);
+
+        if(isOnGate && Input.GetKeyDown(KeyCode.UpArrow)){
+            SceneManager.LoadScene("Loja");
+        }
 
         GameOver();
     }
@@ -130,7 +132,7 @@ public class Player : MonoBehaviour
     }
     public void ActivateBlock(bool condition){
         if(condition){
-            //animator.Play("PlayerBlock");
+            animator.Play("PlayerBlock");
             CombatController.reset();
         }
     }
@@ -162,11 +164,13 @@ public class Player : MonoBehaviour
         }
 
         if(collision.gameObject.tag == "Gate"){
-           SceneManager.LoadScene("Loja");
+            isOnGate = true;
         }
 
         if(collision.gameObject.tag == "CheckPoint"){
-            SceneManager.LoadScene("Levels" + sceneNameList[nextLevel]);
+            nextLevel++;
+            Debug.Log(nextLevel);
+            SceneManager.LoadScene(sceneNameList[nextLevel]);
         }
 
         if(collision.gameObject.tag == "Chest" && hasKey){
@@ -185,6 +189,10 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "Wall"){
             wallSliding = false;
+        }
+
+        if(collision.gameObject.tag == "Gate"){
+            isOnGate = false;
         }
 
         if(collision.gameObject.tag == "mola"){
