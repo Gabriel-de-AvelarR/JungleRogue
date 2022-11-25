@@ -14,6 +14,9 @@ public class Boss : MonoBehaviour
     private Rigidbody2D rig;
     private bool podeDash;
     private float timeLevel;
+    
+    public float direcao;
+    public float mergulhoForce;
 
     void Start(){
       rig = GetComponent<Rigidbody2D>();
@@ -23,29 +26,39 @@ public class Boss : MonoBehaviour
     public void Update(){
 
     Move();  
-    Follow();
+    //Follow();
     Dead();
 
     }
-    public int intTeste;
     public void Move(){
-        /*timeLevel = timeLevel + Time.deltaTime;
-        Debug.Log(timeLevel);
-        while(timeLevel < 5){
-            //Vector3 movement = new Vector3(-contador, 0f, 0f);
-            //transform.position += movement * Time.deltaTime *speed;
-        }*/
+        Vector3 movement = new Vector3(direcao, 0, 0);
+        transform.position += movement * Time.deltaTime *speed;
+        randomizaGolpe();
+
+    }
+    public int aleatorio;
+    public void randomizaGolpe(){
+        aleatorio = Random.Range(0,1000);
+        if(aleatorio < 1){
+        mergulha();
+      }
+    }
+    public void mergulha(){
+      Debug.Log("Entrou");
+
+      aleatorio = Random.Range(0,1000);
+      if(aleatorio < 1){
+
+      }
     }
     public void Follow(){
      float dist = Vector3.Distance(target.position, transform.position);
      if(dist <= within_range){
         if(transform.position.x - target.position.x > 0){
             ataque1();
-            Debug.Log("ta na esquerda");
         }
       
         else if((transform.position.x - target.position.x < 0)){
-            Debug.Log("ta na direita");
         }
       //transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed);  
       }
@@ -61,6 +74,10 @@ public class Boss : MonoBehaviour
         collision.gameObject.GetComponent<Player>().TakeDamage(damage, transform.position);
         collision.gameObject.GetComponent<Player>().Afasta(afastaForce);
         podeDash = false;
+      }
+
+      if(collision.gameObject.layer == 8){
+        direcao = direcao * (-1);
       }
     }
 
