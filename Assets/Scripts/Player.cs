@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rig;
 
+    public Animator animator;
 
     public playerMelee CombatController;
 
@@ -45,6 +46,13 @@ public class Player : MonoBehaviour
         Move();
         Jump();
 
+        CombatController = GameObject.FindGameObjectWithTag("GameController").GetComponent<playerMelee>();
+
+        ActivatePunch(CombatController.isPunch);
+        ActivateKick(CombatController.isKick);
+        ActivateBlock(CombatController.isBlock);
+        ActivateUlt(CombatController.isUlt);
+
         GameOver();
     }
 
@@ -52,6 +60,7 @@ public class Player : MonoBehaviour
         float input = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(input, 0f, 0f);
         transform.position += movement * Time.deltaTime *Speed;
+        animator.SetFloat("Speed", Mathf.Abs(input));
 
         if(input < 0 && facingRight == true){
             Flip();
@@ -105,6 +114,33 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void ActivatePunch(bool condition){
+        if(condition){
+
+            animator.Play("PlayerPunch");
+            CombatController.reset();
+        }
+    }
+    public void ActivateKick(bool condition){
+        if(condition){
+            animator.Play("PlayerKick");
+            CombatController.reset();
+        }
+    }
+    public void ActivateBlock(bool condition){
+        if(condition){
+            //animator.Play("PlayerBlock");
+            CombatController.reset();
+        }
+    }
+    public void ActivateUlt(bool condition){
+        if(condition){
+            //animator.Play("PlayerUlt");
+            CombatController.reset();
+        }
+    }
+
     void GameOver(){
         if(Health <= 0){
             SceneManager.LoadScene("DeathScreen");
