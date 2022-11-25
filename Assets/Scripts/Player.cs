@@ -147,10 +147,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Afasta(bool direita){
-        //if se (direita=true) o hit veio da esquerda entao afasta pra direita
-        //else caso contrario
-        //a ideia é chamar essa funcao la no enemy quando colide com player
+    public void Afasta(float afastaForce){
+            rig.AddForce(new Vector2(0f, afastaForce), ForceMode2D.Impulse);
     }
 
     void OnCollisionEnter2D(Collision2D collision){
@@ -181,7 +179,7 @@ public class Player : MonoBehaviour
     }
 
     void OnCollisionExit2D(Collision2D collision){
-        if((collision.gameObject.layer == 8) && (collision.gameObject.tag == "mola")){
+        if((collision.gameObject.layer == 8) || (collision.gameObject.tag == "mola")){
             isJumping = true;
         }
 

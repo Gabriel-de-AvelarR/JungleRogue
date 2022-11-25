@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float Health;
     public float damage;
+    public float afastaForce = 15;
 
     private Rigidbody2D rig;
     public playerMelee CombatController;
@@ -20,7 +21,6 @@ public class Enemy : MonoBehaviour
     void Start(){
       rig = GetComponent<Rigidbody2D>();
     }
-
 
     public void Update(){
 
@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision){
       if(collision.gameObject.tag == "Player"){
         collision.gameObject.GetComponent<Player>().TakeDamage(damage, transform.position);
+        collision.gameObject.GetComponent<Player>().Afasta(afastaForce);
       }
     }
 
@@ -40,8 +41,8 @@ public class Enemy : MonoBehaviour
      if(dist <= within_range){
       transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed);  
       }
-
     }
+
 
     public void TakeDamage(float attackDamage){
       Health -= attackDamage;
