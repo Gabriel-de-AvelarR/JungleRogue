@@ -17,12 +17,17 @@ public class playerMelee : MonoBehaviour
     public float kickDamage;
 
     public float maxBlock = 3;
-    public bool isBlock = false;
 
     public float ultRange;
     public float ultDamage;
-    public bool isUlt;
+
+    public bool isPunch = false;
+    public bool isKick = false;
+    public bool isBlock = false;
+    public bool isUlt = false;
     public float timeUlt;
+
+    //public Animator animationPlayer;
 
 
     // Update is called once per frame
@@ -31,6 +36,7 @@ public class playerMelee : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q)){
 
             Punch();
+
             Debug.Log("Socou");
         }
 
@@ -39,47 +45,50 @@ public class playerMelee : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.E)){
-            StartCoroutine(Block());
+            Block();
         }
 
         if(Input.GetKeyDown(KeyCode.R)){
             Ultimate();
         }
 
-        //checa Timers
-        //desativa Timers 
-
     }
 
 
     public void Punch(){
-        //animator.SetTrigger("Punch");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, punchRange, enemyLayers);
         foreach(Collider2D enemy in hitEnemies){
             enemy.GetComponent<Enemy>().TakeDamage(punchDamage);
         }
+        isPunch = true;
     }
 
     public void Kick(){
-        //animator.SetTrigger("Kick");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, kickRange, enemyLayers);
         foreach(Collider2D enemy in hitEnemies){
             enemy.GetComponent<Enemy>().TakeDamage(kickDamage);
         }
+        
+        isKick = true;
     }
 
-    public IEnumerator Block(){
-        //animator.SetTrigger("Block");
+    public void Block(){
         isBlock = true;
-        yield return new WaitForSeconds(2);
-        isBlock = false;
+        //animationPlayer.SetBool("isBlocking", false);
     }
 
-    public void Ultimate(){
-        //animator.SetTrigger("Ult");
+    public void Ultimate(){ 
+        //animationPlayer.SetBool("isUlting", true);
         isUlt = true;
+        //animationPlayer.SetBool("isUlting", false);
 
-        //set Timer
+    }
+
+    public void reset(){
+        isPunch = false;
+        isKick = false;
+        isBlock = false;
+        isUlt = false;
     }
 
     public void pushBack(Vector2 hitted, Vector2 hitter, Rigidbody2D rig){
